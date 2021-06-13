@@ -1,0 +1,6 @@
+pytest==6.2.4
+pytest-html==3.1.1
+requests==2.25.1
+langdetect==1.0.9
+selenium==3.141.0
+locust==1.5.3
