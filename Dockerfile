@@ -25,4 +25,4 @@ ENV API_KEY 36c6c596be5bf6334de1d322a2bdbfec
 ENV USERNAME Bynder
 ENV PASSWORD Password
 
-CMD ["pytest", "./api_test/functional_tests", "--html=report/report.html", "--log-cli-level=INFO"]
+CMD ["pytest", "./api_test/functional_tests", "--html=report/api_test_report.html", "--log-cli-level=INFO"]
