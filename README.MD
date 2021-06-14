@@ -45,7 +45,7 @@ https://developers.themoviedb.org/3/movies/rate-movie
 - rate a movie without content type (passed)
 - rate a movie non-existing movie id (passed)
 
-Please refer to more details in Test cases.docx file.
+Please refer to more details in test_cases.docx file.
 
 ## Load Testing
 A basic load testing scenario for endpoint 1 is scripted in python and locust. The scenario parameters should be updated based on 
