@@ -1,4 +1,9 @@
 # Bynder API Testing Assignment
+## Update 2021-06-27
+- One new test scenario and function is added for endpoint 1  
+&ensp; get top rated movies with an invalid page bigger than total pages and valid API key (passed)
+- some careless mistakes are fixed
+
 ## Description
 The app tests the following TMDB API endpoints:  
 https://developers.themoviedb.org/3/movies/get-top-rated-movies  

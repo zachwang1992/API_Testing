@@ -10,7 +10,7 @@ from langdetect import detect
 class TestGetTopRatedMovies:
     def test_get_top_rated_movies_with_valid_api_key(self):
         """
-        The function functional_tests that if we send a get request with valid api key to get top rated movies, we get
+        The function tests that if we send a get request with valid api key to get top rated movies, we get
         a response with status code 200, page 1 and language in English by default.
         :return: None
         """
@@ -28,8 +28,8 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_with_page(self):
         """
-        The function functional_tests that if we send a get request witha valid  page and valid api key to get top rated
-         movies, we get a response with status code 200 and the page in the request.
+        The function tests that if we send a get request with a valid page and valid api key to get top rated
+        movies, we get a response with status code 200 and the page in the request.
         :return: None
         """
 
@@ -48,7 +48,7 @@ class TestGetTopRatedMovies:
     # bug
     def test_get_top_rated_movies_with_invalid_page_in_non_integer(self):
         """
-        The function functional_tests that if we send a get request with an invalid page of non integer and valid api
+        The function tests that if we send a get request with an invalid page of non integer and valid api
         key to get top rated movies, we get a response with status code 400.
         :return: None
         """
@@ -65,7 +65,7 @@ class TestGetTopRatedMovies:
     # bug
     def test_get_top_rated_movies_with_invalid_page_in_string(self):
         """
-        The function functional_tests that if we send a get request with an invalid page of string and valid api key to
+        The function tests that if we send a get request with an invalid page of string and valid api key to
         get top rated movies, we get a response with status code 400.
         :return: None
         """
@@ -81,7 +81,7 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_with_language(self):
         """
-        The function functional_tests that if we send a get request with a valid language and valid api key to get top
+        The function tests that if we send a get request with a valid language and valid api key to get top
         rated movies, we get a response with status code 200 and results in the language in the request.
         :return: None
         """
@@ -101,8 +101,8 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_with_non_existing_language(self):
         """
-        The function functional_tests that if we send a get request with a non-existing language and valid api key to
-        get top rated movies, we get a response with status code 200 and results in the language en in the request.
+        The function tests that if we send a get request with a non-existing language and valid api key to
+        get top rated movies, we get a response with status code 200 and results in the language en.
         :return: None
         """
 
@@ -117,11 +117,11 @@ class TestGetTopRatedMovies:
         logger.info(f'checking the response...')
         assert rs_api, f'Response of listing top rated movies is empty.'
         assert page == 1, f'Default page in response is {page}, which is supposed to be 1'
-        assert detect(overview) == 'en'
+        assert detect(overview) == 'en', f'overview field is not in language en'
 
     def test_get_top_rated_movies_with_region(self):
         """
-        The function functional_tests that if we send a get request with a valid region and valid api key to get top
+        The function tests that if we send a get request with a valid region and valid api key to get top
         rated movies, we get a response with status code 200 and the results filtered by region in the request.
         :return: None
         """
@@ -140,7 +140,7 @@ class TestGetTopRatedMovies:
     # bug
     def test_get_top_rated_movies_with_region_in_lower_case(self):
         """
-        The function functional_tests that if we send a get request with an invalid region in lowercase and valid api
+        The function tests that if we send a get request with an invalid region in lowercase and valid api
         key to get top rated movies, we get a response with status code 200 and the results field is empty.
         :return: None
         """
@@ -157,7 +157,7 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_with_non_existing_region(self):
         """
-        The function functional_tests that if we send a get request with a non-existing region and valid api key to get
+        The function tests that if we send a get request with a non-existing region and valid api key to get
         top rated movies, we get a response with status code 200 and the results field is empty.
         :return: None
         """
@@ -173,7 +173,7 @@ class TestGetTopRatedMovies:
 
     def test_total_pages_and_total_results_fields_are_consistent(self):
         """
-        The function functional_tests that if we send multiple get requests with valid api key and different pages to
+        The function tests that if we send multiple get requests with valid api key and different pages to
         get top rated movies, the fields total_pages and total_results are consistent.
         :return: None
         """
@@ -186,7 +186,8 @@ class TestGetTopRatedMovies:
 
         logger.info(f'sending the second api request...')
         parameters = CredentialsUtility.get_api_key()
-        parameters.update({'page': 10})
+        random_page_number = generate_a_random_existing_page_number()
+        parameters.update({'page': random_page_number})
         req_helper = RequestsUtility()
         rs_api_2 = req_helper.get('/movie/top_rated', parameters=parameters)
         total_pages_2 = rs_api_2.get('total_pages')
@@ -198,7 +199,7 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_with_all_optional_parameters(self):
         """
-        The function functional_tests that if we send a get request with a all optional parameters and valid api key to
+        The function tests that if we send a get request with a all optional parameters and valid api key to
         get top rated movies, we get a response with status code 200 .
         :return: None
         """
@@ -221,7 +222,7 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_without_api_key(self):
         """
-        The function functional_tests that if we send a get request without api key to get top rated movies, we get a
+        The function tests that if we send a get request without api key to get top rated movies, we get a
         response with status code 401.
         :return: None
         """
@@ -235,7 +236,7 @@ class TestGetTopRatedMovies:
 
     def test_get_top_rated_movies_with_invalid_api_key(self):
         """
-        The function functional_tests that if we send a get request with an invalid api key to get top rated movies, we
+        The function tests that if we send a get request with an invalid api key to get top rated movies, we
         get a response with status code 401.
         :return: None
         """
@@ -247,4 +248,25 @@ class TestGetTopRatedMovies:
 
         logger.info(f'checking the response...')
         assert rs_api == GetTopRatedMoviesResponse.INVALID_API_KEY_RESPONSE, f'Response body is not correct'
+
+    def test_get_top_rated_movies_with_page_bigger_than_total_pages(self):
+        """
+        The function tests that if we send a get request with a page bigger than total pages and valid api
+        key to get top rated movies, we get a response with status code 200 and empty results field in the request.
+        :return: None
+        """
+
+        logger.info(f'sending a get api request with a valid page and valid api key to get top rated movies...')
+        parameters = CredentialsUtility.get_api_key()
+        total_pages = RequestsUtility().get('/movie/top_rated').get('total_pages')
+        parameters.update({'page': total_pages+1})
+        req_helper = RequestsUtility()
+        rs_api = req_helper.get('/movie/top_rated', parameters=parameters)
+        page = rs_api.get('page')
+        results = rs_api.get('results')
+
+        logger.info(f'checking the response...')
+        assert rs_api, f'Response of list top rated movies is empty.'
+        assert page == total_pages+1, f'Page in response is {page}, which is supposed to be {total_pages+1}'
+        assert not results, f'results field is not empty'
 

@@ -26,6 +26,6 @@ def generate_a_random_non_existing_session_id():
 
 
 def generate_a_random_non_existing_api_key():
-    session_id_length = 32
-    random_session_id = ''.join(random.choices(string.ascii_lowercase + string.digits, k=session_id_length))
-    return random_session_id
+    api_key_length = 32
+    api_key = ''.join(random.choices(string.ascii_lowercase + string.digits, k=api_key_length))
+    return api_key

@@ -60,7 +60,7 @@ class RateMovieResponse:
         "status_message": "Invalid parameters: Your request parameters are incorrect."
     }
     FAILED_REQUEST_OF_INVALID_MOVIE_ID = {
-    "success": False,
-    "status_code": 34,
-    "status_message": "The resource you requested could not be found."
+        "success": False,
+        "status_code": 34,
+        "status_message": "The resource you requested could not be found."
 }

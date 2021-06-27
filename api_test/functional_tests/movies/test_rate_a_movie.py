@@ -24,7 +24,7 @@ class TestRateAMovie:
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.SUCCESSFULLY_ADDED_RESPONSE \
                or rs_api == RateMovieResponse.SUCCESSFULLY_UPDATED_RESPONSE, \
-            f'Response of rating a movie successfully is not correct.'
+            f'Response body of rating a movie successfully is not correct.'
 
     def test_rate_a_movie_without_api_key(self):
         """
@@ -42,7 +42,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_WITHOUT_API_KEY, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_without_session_id(self):
         """
@@ -61,7 +61,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_WITHOUT_SESSION_ID,\
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_without_api_key_and_session_id(self):
         """
@@ -70,9 +70,6 @@ class TestRateAMovie:
         :return: None
         """
         movie_helper = MovieHelper()
-        movie_helper.create_request_token()
-        movie_helper.authorize_request_token()
-        session_id = movie_helper.create_session_id()
 
         logger.info(f'sending a post request without api key and session id to rate a movie...')
         movie_id = generate_a_random_existing_movie_id()
@@ -80,7 +77,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_WITHOUT_API_KEY, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_non_existing_api_key(self):
         """
@@ -97,11 +94,11 @@ class TestRateAMovie:
         movie_id = generate_a_random_existing_movie_id()
         parameters = {'session_id': session_id}
         parameters.update({'api_key': generate_a_random_non_existing_api_key()})
-        rs_api = movie_helper.rate_a_movie(movie_id, parameters={}, expected_status_code=401)
+        rs_api = movie_helper.rate_a_movie(movie_id, parameters=parameters, expected_status_code=401)
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_WITHOUT_API_KEY, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_non_existing_session_id(self):
         """
@@ -110,9 +107,6 @@ class TestRateAMovie:
         :return: None
         """
         movie_helper = MovieHelper()
-        movie_helper.create_request_token()
-        movie_helper.authorize_request_token()
-        movie_helper.create_session_id()
 
         logger.info(f'sending a post request with non-existing session id to rate a movie...')
         movie_id = generate_a_random_existing_movie_id()
@@ -123,7 +117,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_WITHOUT_SESSION_ID, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_invalid_payload_including_value_not_multiple_of_half(self):
         """
@@ -143,7 +137,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_VALUE_NOT_MULTIPLE_OF_HALF, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_invalid_payload_including_value_more_than_ten(self):
         """
@@ -162,7 +156,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_VALUE_MORE_THAN_TEN, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_invalid_payload_including_value_not_greater_than_zero(self):
         """
@@ -181,7 +175,7 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_VALUE_NOT_GREATER_THAN_ZERO, \
-            f'Response of rating a movie is not correct.'
+            f'Response body of rating a movie is not correct.'
 
     # bug
     def test_rate_a_movie_with_invalid_payload_including_value_in_string(self):
@@ -200,8 +194,8 @@ class TestRateAMovie:
         rs_api = movie_helper.rate_a_movie(movie_id, payload={'value': '5x'}, expected_status_code=400)
 
         logger.info(f'checking the response...')
-        assert rs_api, f'Response of rating a movie is empty.'
-        assert not rs_api.get('success')
+        assert rs_api, f'Response body of rating a movie is empty.'
+        assert not rs_api.get('success'), f'success field in the response is true'
 
     def test_rate_a_movie_with_invalid_payload_including_wrong_key(self):
         """
@@ -219,7 +213,8 @@ class TestRateAMovie:
         rs_api = movie_helper.rate_a_movie(movie_id, payload={'Value': 8.5}, expected_status_code=400)
 
         logger.info(f'checking the response...')
-        assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_BAD_REQUEST, f'Response of rating a movie is not correct.'
+        assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_BAD_REQUEST, \
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_empty_payload(self):
         """
@@ -236,7 +231,8 @@ class TestRateAMovie:
         rs_api = movie_helper.rate_a_movie(movie_id, payload={}, expected_status_code=400)
 
         logger.info(f'checking the response...')
-        assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_BAD_REQUEST, f'Response of rating a movie is not correct.'
+        assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_BAD_REQUEST, \
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_without_content_type(self):
         """
@@ -253,7 +249,8 @@ class TestRateAMovie:
         rs_api = movie_helper.rate_a_movie(movie_id, headers={}, expected_status_code=400)
 
         logger.info(f'checking the response...')
-        assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_BAD_REQUEST, f'Response of rating a movie is not correct.'
+        assert rs_api == RateMovieResponse.FAILED_RESPONSE_OF_BAD_REQUEST, \
+            f'Response body of rating a movie is not correct.'
 
     def test_rate_a_movie_with_non_existing_movie_id(self):
         """
@@ -272,4 +269,4 @@ class TestRateAMovie:
 
         logger.info(f'checking the response...')
         assert rs_api == RateMovieResponse.FAILED_REQUEST_OF_INVALID_MOVIE_ID, \
-            f'Response of rating a movie successfully is not correct.'
+            f'Response body of rating a movie successfully is not correct.'
