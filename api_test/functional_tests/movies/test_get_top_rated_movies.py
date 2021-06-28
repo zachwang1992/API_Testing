@@ -242,8 +242,9 @@ class TestGetTopRatedMovies:
         """
 
         logger.info(f'sending a get api request with an invalid api key to get top rated movies...')
+        parameters = {'api_key': generate_a_random_non_existing_api_key()}
         req_helper = RequestsUtility()
-        rs_api = req_helper.get('/movie/top_rated', parameters=generate_a_random_non_existing_api_key(),
+        rs_api = req_helper.get('/movie/top_rated', parameters=parameters,
                                 expected_status_code=401)
 
         logger.info(f'checking the response...')
